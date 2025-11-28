@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: kummatty_db
+    restart: always
+    environment:
+      POSTGRES_USER: kummatty_user
+      POSTGRES_PASSWORD: kummatty_password
+      POSTGRES_DB: kummatty_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kummatty_user -d kummatty_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: kummatty_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+  
+  chroma:
+    image: chromadb/chroma
+    container_name: kummatty_chroma
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      # This volume persists the vector data on your local machine
+      - chroma_data:/chromadb/chroma
+    environment:
+      # Optional: set persistence flag explicitly
+      - IS_PERSISTENT=TRUE
+      # Optional: disable telemetry
+      - ANONYMIZED_TELEMETRY=FALSE
+    
+volumes:
+  postgres_data:
+  redis_data:
+  chroma_data: # New volume for Chroma persistence
