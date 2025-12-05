@@ -59,8 +59,8 @@ Follow these steps to set up and run the system locally.
 
 ```bash
 # Clone the repository
-git clone https://github.com/premsgdev/Containerized-Local-LLM-Grounding.git
-cd Containerized-Local-LLM-Grounding
+git clone https://github.com/premsgdev/Containerized-Local-LLM-injest-retrive.git 
+cd Containerized-Local-LLM-injest-retrive
 
 # Install required Node.js packages, including Xenova
 npm install
