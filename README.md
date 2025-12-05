@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐳 Containerized Local LLM Grounding Engine
 
-## Getting Started
+A dual-pipeline, Retrieval-Augmented Generation (RAG) system engineered to provide highly accurate, document-grounded answers from private policy documents. This project demonstrates proficiency in orchestrating a hybrid architecture combining cloud-based and self-hosted embedding models with Dockerized vector and data persistence services.
 
-First, run the development server:
+---
+
+## 📘 Project Overview
+
+This repository showcases a robust solution for querying private knowledge bases (specifically, Kerala Government policy documents).  
+The core technical achievement is the implementation of **two parallel RAG pipelines**:
+
+### **1. Cloud-Powered Pipeline**
+- Uses **Google’s Gemini embedding model** for vector creation.
+
+### **2. Self-Hosted Pipeline**
+- Utilizes **Xenova/transformers** to run a lightweight local Sentence Transformer model (`all-MiniLM-L6-v2`), providing a cost-effective and low-latency alternative.
+
+All essential services—vector store, database, and cache—are managed and persisted using **Docker** and **Docker Compose**.
+
+---
+
+## ⭐ Key Features
+
+- **Dual-Embedding RAG**: Fully functional Cloud API and Local Embedding pipelines.
+- **Local Embedding Generation**: Runs Xenova models locally—no external embedding API required.
+- **Containerized Infrastructure**: ChromaDB, PostgreSQL, and Redis orchestrated via Docker Compose.
+- **Vector Persistence**: ChromaDB uses Docker volumes to store embeddings.
+- **Streaming API**: Chat responses are streamed using Next.js API routes.
+
+---
+
+## 🛠 Technology Stack
+
+| Category         | Technology            | Purpose                                              |
+|------------------|------------------------|------------------------------------------------------|
+| RAG/AI           | Google Gemini          | Large Language Model for final generation           |
+| Embeddings       | Xenova/transformers    | Local embedding model (`all-MiniLM-L6-v2`)          |
+| Vector DB        | ChromaDB               | Vector store for persistent RAG indexing            |
+| Framework        | Next.js, TypeScript    | API routes & server-side logic                      |
+| Infrastructure   | Docker, Docker Compose | Containerization & orchestration                    |
+| Data Persistence | PostgreSQL             | Storage for metadata & application state            |
+| Caching          | Redis                  | In-memory caching & session management              |
+| Tooling          | LangChain Splitters    | Document chunking                                   |
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up and run the system locally.
+
+### **Prerequisites**
+- Node.js (LTS)
+- Docker & Docker Compose
+- Gemini API Key (`.env.local`)
+
+---
+
+### **1. Clone and Install Dependencies**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Clone the repository
+git clone https://github.com/premsgdev/Containerized-Local-LLM-Grounding.git
+cd Containerized-Local-LLM-Grounding
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Install required Node.js packages, including Xenova
+npm install
